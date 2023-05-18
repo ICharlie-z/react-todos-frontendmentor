@@ -61,6 +61,20 @@ const App = () => {
         setFilter(filtro);
     };
 
+    const handleDragEnd = (result) => {
+        if (!result.destination) return;
+        const startIndex = result.source.index;
+        const endIndex = result.destination.index;
+
+        const items = [...todos];
+        // con splice estamos eliminando un elemento del array y devolviendo ese elemento
+        const [reorderedItem] = items.splice(startIndex, 1);
+
+        // con splice estamos insertando un elemento en el array
+        items.splice(endIndex, 0, reorderedItem);
+
+        setTodos(items);
+    };
     return (
         <div
             className="min-h-screen bg-gray-200 bg-[url('./assets/images/bg-mobile-light.jpg')]
@@ -75,6 +89,7 @@ const App = () => {
                     todos={filterTodos()}
                     removeTodo={removeTodo}
                     updateTodo={updateTodo}
+                    handleDragEnd={handleDragEnd}
                 />
                 <TodoComputed
                     clearCompleted={clearCompleted}
